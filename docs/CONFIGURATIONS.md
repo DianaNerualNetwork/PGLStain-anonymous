@@ -82,8 +82,8 @@ puzzlestain-run mist/pglstain/full \
 
 The four variants retain 512 × 512 training, seed 42, batch size 1, learning rate
 `0.0002`, and 100 epochs with a 50 + 50 schedule. They use `nce_idt=true` and
-`lambda_gp=10`. The MRSA variants retain `sinkhorn_epsilon=0.05` and
-`mass_penalty=2.0`. The additional `mist/cpt` selector is the baseline's inherited
+`lambda_gp=10`. The MRSA variants retain `sinkhorn_epsilon=0.05`.
+The additional `mist/cpt` selector is the baseline's inherited
 configuration dependency, rather than a twelfth comparison method.
 
 The PGLStain reference snapshot contains legacy metadata: `full` and `pecc_only`

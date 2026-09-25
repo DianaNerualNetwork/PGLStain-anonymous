@@ -148,9 +148,8 @@ directories. Select the checkpoint for the intended stain; changing the output
 stain label does not change the trained generator. All checkpoints use the default
 512 × 512 direct-resize protocol and evaluation mode. Their minimal configs
 are for inference, not training resumption. See [checkpoint details](docs/CHECKPOINTS.md)
-for all five commands, hashes, and training provenance. In particular, the
-reported MIST–HER2/PR/Ki67 checkpoints used `rho=1`, whereas the two ER
-checkpoints used `rho=2`; the ACROBAT training-recovery caveat is also documented.
+for all five commands, hashes, and training provenance, including the ACROBAT
+training-recovery caveat.
 
 Other evaluation presets are `perception`, `pathological-relevance`,
 `pathfid`, and `all`. Configure the desired extractor and weights explicitly

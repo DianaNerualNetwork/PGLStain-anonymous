@@ -3,13 +3,13 @@
 This release includes five Full PGLStain generators. No comparison-method
 weights are distributed.
 
-| Directory | Dataset and stain | Saved epoch | Training UGW mass penalty (`rho`) |
-|---|---|---:|---:|
-| `checkpoints/mist_er_full` | MIST–ER | 100 | 2.0 |
-| `checkpoints/mist_her2_full` | MIST–HER2 | 100 | 1.0 |
-| `checkpoints/mist_pr_full` | MIST–PR | 100 | 1.0 |
-| `checkpoints/mist_ki67_full` | MIST–Ki67 | 100 | 1.0 |
-| `checkpoints/acrobat_er_full` | ACROBAT–ER | 20 | 2.0 |
+| Directory | Dataset and stain | Saved epoch |
+|---|---|---:|
+| `checkpoints/mist_er_full` | MIST–ER | 100 |
+| `checkpoints/mist_her2_full` | MIST–HER2 | 100 |
+| `checkpoints/mist_pr_full` | MIST–PR | 100 |
+| `checkpoints/mist_ki67_full` | MIST–Ki67 | 100 |
+| `checkpoints/acrobat_er_full` | ACROBAT–ER | 20 |
 
 Each directory contains the generator weights, an anonymized `config.yaml`
 with the fields needed for inference, and `export_metadata.json` recording
@@ -29,14 +29,8 @@ was unbalanced, with `sinkhorn_epsilon=0.05`.
 
 The MIST generators used 100 epochs: 50 constant-learning-rate epochs followed
 by 50 decay epochs. The MIST–ER training recipe is `mist/pglstain/full`.
-The released MIST–HER2, PR, and Ki67 checkpoints correspond to the reported
-cross-stain results and used **`mass_penalty=1.0`**, not the ER default of 2.0.
-Later `rho=2` cross-stain reruns are not substituted for these checkpoints.
-When adapting the Full training recipe to these three stains, set
-`loss.components.mrsa_relational.mass_penalty=1.0` and use the matching stain
-and dataset directories. Changing an inference config cannot retroactively
-change the objective used to train a generator. The HER2 checkpoint here is
-from MIST, not BCI. See [configuration details](CONFIGURATIONS.md).
+The HER2 checkpoint here is from MIST, not BCI.
+See [configuration details](CONFIGURATIONS.md) for the supplied training presets.
 
 ACROBAT–ER was configured for 20 epochs: 10 constant-learning-rate epochs
 followed by 10 decay epochs. Training stopped during epoch 16 and was resumed
