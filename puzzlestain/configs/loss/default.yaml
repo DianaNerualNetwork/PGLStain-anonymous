@@ -1,0 +1,4 @@
+components:
+  gan:
+    gan_mode: vanilla
+    weight: 1.0

@@ -1,0 +1,6 @@
+# @package _global_
+task:
+  input_keys:
+    - source_image
+  target_keys:
+    - target_image

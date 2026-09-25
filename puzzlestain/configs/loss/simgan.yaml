@@ -1,0 +1,27 @@
+# @package _global_
+# SIM-GAN loss: LSGAN + PatchNCE + MC consistency + cosine-consistency matrix.
+# NOTE: the patchnce/mc_consistency `batch_size` must equal the per-process
+# `data.batch_size` of the experiment preset (both are feature-reshape dims).
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 2
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    mc_consistency:
+      eps: 1.0
+      max_iter: 50
+      cost_type: easy
+      scale: 10000.0
+      batch_size: 2
+      weight: 1.0
+    cosine_consistency:
+      scale: 10.0
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

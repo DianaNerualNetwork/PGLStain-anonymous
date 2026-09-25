@@ -1,0 +1,102 @@
+# @package _global_
+# USIGAN experiment: CPT + UMC + PCSM + cosine-consistency matrix.
+#
+# Aligned with the original USIGAN repo (`python -m experiments mist train 0`):
+# no Gaussian-pyramid loss (lambda_gp: 0), spectral norm on G/D convs.
+#
+# Usage (single GPU; select the card via training.gpu_ids or CUDA_VISIBLE_DEVICES):
+#   puzzlestain-run usigan \
+#       data.dataroot=/path/to/MIST/ER/TrainValAB \
+#       data.selected_stains=[ER]
+
+defaults:
+  - override /data: mist
+  - override /transforms: default
+  - override /task: default
+  - override /model: default
+  - override /loss: usigan
+  - override /training: default
+  - override /logging: default
+
+transforms:
+  train_transforms:
+    - name: synchronized_resize
+      size: [512, 512]
+    - name: synchronized_random_crop
+      size: 512
+    - name: synchronized_random_horizontal_flip
+      p: 0.5
+    - name: synchronized_make_power_2
+      base: 4
+    - name: to_tensor_normalize
+      scale_to_minus_one_one: true
+
+data:
+  dataset_layout: aligned
+  panel_id: breast_mist_4plex_20x
+  selected_stains: ???
+  dataroot: ???
+  batch_size: 2
+  sampler: simple
+  shuffle: true
+  drop_last: true
+  splits: [train]
+  num_workers: 4
+
+training:
+  max_epochs: 100
+  lr: 0.0002
+  weight_decay: 0.0
+  beta1: 0.5
+  beta2: 0.999
+  n_epochs: 50
+  n_epochs_decay: 50
+  lr_policy: linear
+  save_epoch_freq: 20
+  save_latest_freq: 5000
+  log_steps: 100
+  display_freq: 100
+
+model:
+  name: usigan
+  params:
+    input_nc: 3
+    output_nc: 3
+    ngf: 64
+    ndf: 32
+    netG: resnet_6blocks
+    netD: n_layers
+    netF: mlp_sample
+    n_layers_D: 5
+    normG: instance
+    normD: instance
+    weight_norm: spectral
+    init_type: xavier
+    init_gain: 0.02
+    no_dropout: true
+    no_antialias: false
+    no_antialias_up: false
+    nce_idt: true
+    lambda_GAN: 1.0
+    lambda_NCE: 1.0
+    nce_layers: '0,4,8,12,16'
+    nce_T: 0.07
+    num_patches: 256
+    netF_nc: 256
+    flip_equivariance: false
+    # Original USIGAN has no Gaussian-pyramid term (inherits the CPT slot,
+    # disabled here); gp_weights kept so the slot stays configurable.
+    lambda_gp: 0.0
+    gp_weights: uniform
+    lambda_umc: 1.0
+    lambda_pcsm: 1.0
+    lambda_cc: 1.0
+    umc_eps: 1.0
+    umc_tau: 0.001
+    umc_max_iter: 50
+    umc_cost_type: easy
+    umc_scale: 10000.0
+    cc_scale: 10.0
+    pcsm_scale: 1.0
+    crop_size: 512
+    d_lr_factor: 1.0

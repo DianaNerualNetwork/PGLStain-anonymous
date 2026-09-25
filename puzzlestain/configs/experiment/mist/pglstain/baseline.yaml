@@ -1,0 +1,12 @@
+# @package _global_
+# CPT baseline with neither PECC nor MRSA.
+defaults:
+  - /experiment/mist/cpt
+  - _self_
+
+training:
+  seed: 42
+
+model:
+  params:
+    nce_idt: true

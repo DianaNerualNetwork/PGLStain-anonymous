@@ -1,0 +1,98 @@
+# @package _global_
+# CycleGAN experiment: unpaired image-to-image translation with cycle
+# consistency (aligned batches; no domain-B shuffling).
+#
+# Usage:
+#   python -m puzzlestain.train experiment=acrobat/cyclegan \
+#       data.dataroot=/path/to/ACROBAT/STAIN/TrainValAB \
+#       data.selected_stains=[ER]
+#
+# Mirrors the original CycleGAN command:
+#   python train.py --dataroot /path/to/ACROBAT/STAIN/TrainValAB \
+#       --name acrobat_er --model cycle_gan
+#
+# Effective options of that command (all defaults of the reference repo
+# unless set by cycle_gan itself):
+#   dataset:  --dataset_mode aligned --direction AtoB --batch_size 1
+#             --load_size 512 --crop_size 512 --preprocess resize_and_crop
+#             horizontal flip on (--no_flip unset) --num_threads 4
+#             shuffle on (--serial_batches unset) DataLoader drop_last=False
+#   networks: --input_nc 3 --output_nc 3 --ngf 64 --ndf 64
+#             --netG resnet_9blocks --netD basic --n_layers_D 3
+#             --norm instance --init_type normal --init_gain 0.02
+#             --no_dropout (forced by cycle_gan)
+#   objective: --gan_mode lsgan --pool_size 50
+#             --lambda_A 10.0 --lambda_B 10.0 --lambda_identity 0.5
+#   optimize: --lr 0.0002 --beta1 0.5 --lr_policy linear
+#             --n_epochs 50 --n_epochs_decay 50
+#   logging:  --print_freq 100 --save_latest_freq 5000 --save_epoch_freq 5
+
+defaults:
+  - override /data: default
+  - override /transforms: default
+  - override /task: default
+  - override /model: default
+  - override /loss: cyclegan
+  - override /training: default
+  - override /logging: default
+
+transforms:
+  train_transforms:
+    - name: synchronized_resize
+      size: [512, 512]
+    - name: synchronized_random_crop
+      size: 512
+    - name: synchronized_random_horizontal_flip
+      p: 0.5
+    - name: synchronized_make_power_2
+      base: 4
+    - name: to_tensor_normalize
+      scale_to_minus_one_one: true
+
+data:
+  dataset_layout: aligned
+  panel_id: breast_acrobat_4plex_10x
+  target_mpp: 1.84  # raw ACROBAT tiles: ~0.92 um/px (10x); 1024 -> 512
+  selected_stains: ???    # required override, e.g. [ER]
+  dataroot: ???           # required: one stain root containing trainA/trainB
+  batch_size: 1
+  sampler: simple
+  shuffle: true
+  drop_last: false
+  splits: [train]
+  num_workers: 4
+
+training:
+  max_epochs: 20          # ACROBAT schedule: 10 constant + 10 linear-decay epochs
+  lr: 0.0002
+  weight_decay: 0.0
+  beta1: 0.5
+  beta2: 0.999
+  n_epochs: 10
+  n_epochs_decay: 10
+  lr_policy: linear
+  save_epoch_freq: 5
+  save_latest_freq: 5000
+  log_steps: 100
+  display_freq: 100
+
+model:
+  name: cyclegan
+  params:
+    input_nc: 3
+    output_nc: 3
+    ngf: 64
+    ndf: 64
+    netG: resnet_9blocks
+    netD: basic
+    n_layers_D: 3
+    norm: instance
+    init_type: normal
+    init_gain: 0.02
+    use_dropout: false
+    pool_size: 50
+    lambda_A: 10.0
+    lambda_B: 10.0
+    lambda_identity: 0.5
+    gan_mode: lsgan
+    d_lr_factor: 1.0

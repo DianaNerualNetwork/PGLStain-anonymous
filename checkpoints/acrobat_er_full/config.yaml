@@ -1,0 +1,51 @@
+model:
+  name: pglstain
+  params:
+    input_nc: 3
+    output_nc: 3
+    ngf: 64
+    ndf: 32
+    netG: resnet_6blocks
+    netD: n_layers
+    n_layers_D: 5
+    init_type: xavier
+    init_gain: 0.02
+    netF: mlp_sample
+    normG: instance
+    normD: instance
+    no_dropout: true
+    no_antialias: false
+    no_antialias_up: false
+    nce_idt: true
+    lambda_GAN: 1.0
+    lambda_NCE: 1.0
+    nce_layers: 0,4,8,12,16
+    nce_T: 0.07
+    num_patches: 256
+    netF_nc: 256
+    flip_equivariance: false
+    lambda_gp: 10.0
+    gp_weights: '[0.015625,0.03125,0.0625,0.125,0.25,1.0]'
+    lambda_od_struct: 0.1
+    lambda_od_set: 5.0
+    lambda_od_graph: 1.0
+    weight_norm: spectral
+    crop_size: 512
+    d_lr_factor: 1.0
+    lambda_pecc: 0.1
+    pecc_layers: 8,12,16
+  normalize_to_minus_one_one: true
+transforms:
+  train_transforms:
+  - name: synchronized_resize
+    size:
+    - 512
+    - 512
+  - name: synchronized_random_crop
+    size: 512
+  - name: synchronized_make_power_2
+    base: 4
+  - name: synchronized_random_horizontal_flip
+    p: 0.5
+  - name: to_tensor_normalize
+    scale_to_minus_one_one: true

@@ -1,0 +1,14 @@
+# @package _global_
+# Default MIST/ASP-style transform pipeline using atomic synchronized transforms.
+transforms:
+  train_transforms:
+    - name: synchronized_resize
+      size: [1024, 1024]
+    - name: synchronized_random_crop
+      size: 512
+    - name: synchronized_random_horizontal_flip
+      p: 0.5
+    - name: synchronized_make_power_2
+      base: 4
+    - name: to_tensor_normalize
+      scale_to_minus_one_one: true

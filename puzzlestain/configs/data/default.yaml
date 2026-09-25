@@ -1,0 +1,24 @@
+# @package _global_
+data:
+  sample_meta: null  # optional: path to sample_meta.parquet (str or list)
+  patch_root: ""
+  dataroot: null
+  dataset_layout: mist
+  panel_id: default
+  selected_stains: null
+  panel_policy: null
+  sampler: stain_balanced
+  batch_size: 8
+  drop_last: false
+  shuffle: true
+  num_workers: 4
+  backend: default
+  splits:
+    - train
+  row_filter: {}
+  return_onehot: false
+  max_dataset_size: 0
+  aux_columns: []
+  scalar_columns: []
+  resize_size: null
+  target_mpp: null

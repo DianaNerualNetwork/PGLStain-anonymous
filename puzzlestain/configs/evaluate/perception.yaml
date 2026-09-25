@@ -1,0 +1,4 @@
+# Perceptual similarity family: phv / dists / fid / kid (IS is disabled)
+#
+#   puzzlestain-eval perception dataset=... stain=... model=...
+families: [perception]

@@ -1,0 +1,25 @@
+# @package _global_
+# PSPStain loss: LSGAN + PatchNCE + MS-SSIM + MLPA/CTPC pathology.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    ms_ssim:
+      data_range: 2.0
+      weight: 0.05
+    psp_pathology:
+      # Pretrained UNet_pro checkpoint (original: pretrain/{unet_seg}.pth),
+      # distributed by the PSPStain authors:
+      # https://github.com/ccitachi/PSPStain/tree/main/pretrain
+      seg_pretrained_path: ${oc.env:PATHOLOGY_CHECKPOINT_ROOT,./checkpoints}/pspstain/MIST_unet_seg.pth
+      lambda_CTPC: 2.5
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

@@ -1,0 +1,10 @@
+# @package _global_
+# CycleGAN loss: LSGAN + cycle-consistency L1 (also used for the identity
+# terms; per-term lambda_A/lambda_B/lambda_identity weights stay on the model).
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    cycle_consistency:
+      weight: 1.0

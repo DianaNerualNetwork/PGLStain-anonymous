@@ -1,0 +1,86 @@
+# @package _global_
+# UNSB experiment: faithful port of the original UNSB repo (ICLR 2024)
+# into the diffusion family.
+#
+# Mirrors the original command:
+#   python train.py --dataroot /path/to/ACROBAT/STAIN/TrainValAB \
+#       --name acrobat_er --mode sb --lambda_SB 1.0 --lambda_NCE 1.0 --gpu_ids 0
+#
+# Usage:
+#   python -m puzzlestain.train experiment=acrobat/unsb \
+#       data.dataroot=/path/to/ACROBAT/STAIN/TrainValAB \
+#       data.selected_stains=[ER]
+
+defaults:
+  - override /data: default
+  - override /transforms: default
+  - override /task: default
+  - override /model: default
+  - override /loss: unsb
+  - override /training: default
+  - override /logging: default
+
+transforms:
+  train_transforms:
+    - name: synchronized_resize
+      size: [512, 512]
+    - name: synchronized_random_crop
+      size: 512
+    - name: synchronized_make_power_2
+      base: 4
+    - name: synchronized_random_horizontal_flip
+      p: 0.5
+    - name: to_tensor_normalize
+      scale_to_minus_one_one: true
+
+data:
+  dataset_layout: aligned
+  panel_id: breast_acrobat_4plex_10x
+  target_mpp: 1.84  # raw ACROBAT tiles: ~0.92 um/px (10x); 1024 -> 512
+  selected_stains: ???    # required override, e.g. [ER]
+  dataroot: ???           # required: one stain root containing trainA/trainB
+  batch_size: 1
+  sampler: simple
+  shuffle: true
+  drop_last: true
+  splits: [train]
+  num_workers: 4
+
+training:
+  max_epochs: 20          # ACROBAT schedule: 0 constant + 20 linear-decay epochs
+  lr: 0.0002
+  weight_decay: 0.0
+  beta1: 0.5
+  beta2: 0.999
+  n_epochs: 0
+  n_epochs_decay: 20
+  lr_policy: linear
+  save_epoch_freq: 5
+  save_latest_freq: 5000
+  log_steps: 100
+  display_freq: 100
+
+model:
+  name: unsb
+  params:
+    input_nc: 3
+    output_nc: 3
+    ngf: 64
+    ndf: 64
+    netD: basic_cond
+    netE: basic_cond
+    n_layers_D: 3
+    norm: instance
+    init_type: xavier
+    init_gain: 0.02
+    use_dropout: false
+    n_mlp: 3
+    num_timesteps: 5
+    tau: 0.01
+    lambda_GAN: 1.0
+    lambda_SB: 1.0
+    lambda_NCE: 1.0
+    nce_idt: true
+    nce_layers: '0,4,8,12,16'
+    num_patches: 256
+    netF_nc: 256

@@ -1,0 +1,19 @@
+defaults:
+  - _self_
+  - data: default
+  - transforms: default
+  - task: default
+  - model: default
+  - loss: default
+  - training: default
+  - logging: default
+  - optional experiment: null
+
+output_dir: ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+hydra:
+  run:
+    dir: ${output_dir}
+  sweep:
+    dir: ./multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra:job.num}

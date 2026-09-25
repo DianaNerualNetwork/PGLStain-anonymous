@@ -1,0 +1,13 @@
+# @package _global_
+# MRSA-only: CPT + Marginal Relational Stain Alignment.
+defaults:
+  - /experiment/mist/pglstain/full
+  - override /loss: pglstain_mrsa
+  - _self_
+
+model:
+  params:
+    lambda_pecc: 0.0
+    lambda_od_struct: 0.0
+    lambda_od_set: 5.0
+    lambda_od_graph: 1.0

@@ -1,0 +1,27 @@
+# @package _global_
+# ASP loss: LSGAN + PatchNCE + adaptive supervised PatchNCE +
+# Gaussian-pyramid reconstruction.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    asp:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      asp_loss_mode: lambda_linear
+      # Schedule spans the full training run, referenced from the training
+      # group so only training.n_epochs / training.n_epochs_decay need to be
+      # changed (mirrors the ASP repo, where both share the same option).
+      n_epochs: ${training.n_epochs}
+      n_epochs_decay: ${training.n_epochs_decay}
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

@@ -1,0 +1,12 @@
+# @package _global_
+# CUT loss: LSGAN + PatchNCE.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0

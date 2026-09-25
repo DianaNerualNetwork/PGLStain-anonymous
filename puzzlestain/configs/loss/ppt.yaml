@@ -1,0 +1,23 @@
+# @package _global_
+# PPT loss: LSGAN + bidirectional FocalNCE + patch alignment + VGG content +
+# Gaussian-pyramid frequency loss.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    focal_nce:
+      nce_T: 0.07
+      batch_size: 1
+      weight: 1.0
+    patch_alignment:
+      height: 4
+      width: 4
+      beta: 0.0025
+      weight: 1.0
+    vgg:
+      lambda_feat: 1.0
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

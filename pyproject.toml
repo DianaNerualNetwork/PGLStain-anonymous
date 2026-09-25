@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "puzzlestain"
+version = "0.1.12"
+description = "Anonymous PGLStain research implementation and comparison methods"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = [
+  "numpy>=1.24,<2", "scipy>=1.11", "torch>=2.1.2", "torchvision>=0.16.2",
+  "hydra-core>=1.3", "omegaconf>=2.3", "accelerate>=0.31",
+  "pandas>=2", "pyarrow>=14", "pydantic>=2", "Pillow>=10",
+  "opencv-python-headless>=4.8", "scikit-image>=0.21", "kornia>=0.8",
+  "pytorch-msssim>=1", "dominate>=2.9", "tqdm>=4.67",
+]
+
+[project.optional-dependencies]
+evaluation = ["timm>=1.0.9", "huggingface-hub>=0.24.5", "safetensors>=0.4", "dists-pytorch", "niqe"]
+tracking = ["wandb>=0.16"]
+nuclei = ["cellpose>=2.2.3,<3"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+puzzlestain-run = "puzzlestain.cli:main"
+puzzlestain-predict = "puzzlestain.inference.cli:main"
+puzzlestain-eval = "puzzlestain.evaluation.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["puzzlestain*"]
+
+[tool.setuptools.package-data]
+puzzlestain = ["configs/**/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88

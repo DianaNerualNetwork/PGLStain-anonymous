@@ -1,0 +1,4 @@
+# @package _global_
+# Default transform pipeline is empty; experiments supply their own transforms.
+transforms:
+  train_transforms: []

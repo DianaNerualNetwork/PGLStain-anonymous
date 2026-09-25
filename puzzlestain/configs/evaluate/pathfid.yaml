@@ -1,0 +1,17 @@
+# PathFID family: pathology foundation model FID
+#
+#   puzzlestain-eval pathfid dataset=... stain=... model=...
+#   puzzlestain-eval pathfid dataset=... stain=... model=... pathfid.foundation_models=[conch,uni,univ2-h,stainnet]
+#   puzzlestain-eval pathfid dataset=... stain=... model=... pathfid.foundation_models=[uni] pathfid.checkpoint=/ckpt/uni/pytorch_model.bin
+#
+# Each extractor produces its own summary column: pathfid_conch, pathfid_uni,
+# pathfid_univ2-h, ...
+#
+# Overridable keys (defaults in default.yaml):
+#   pathfid.foundation_models: list of conch | uni | univ2-h | stainnet | inception
+#                              ("univ2" accepted as an alias of "univ2-h")
+#   pathfid.checkpoint: local weights — a single path (single-model runs) or {model: path};
+#                       without it, {PATHOLOGY_CHECKPOINT_ROOT}/{uni,univ2-h,conch,stainnet}
+#                       is tried before falling back to HuggingFace Hub
+#   pathfid.hf_id: HuggingFace Hub id — a single id or {model: id}; null -> per-model default
+families: [pathfid]

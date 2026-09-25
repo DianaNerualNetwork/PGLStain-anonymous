@@ -1,0 +1,4 @@
+# Pathological relevance family: miod / pearsonr / dab_kl
+#
+#   puzzlestain-eval pathological-relevance dataset=... stain=... model=...
+families: [pathological_relevance]

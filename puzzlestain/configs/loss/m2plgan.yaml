@@ -1,0 +1,31 @@
+# @package _global_
+# M2PL-GAN loss: LSGAN + PatchNCE + CACM + LDAM + GBCLM.
+# Note: cacm's patchsize is overridden per call by model.params.patchsize;
+# the value here is only the fallback default.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    cacm:
+      patchsize: 64
+      weight: 1.0
+    ldam:
+      mode: patchwpatch    # patchwpatch | pixelwpiexl (netF-sampled features)
+      patch_size: 16       # patchwpatch only
+      stride: 16           # patchwpatch only
+      sigma: 1.0
+      weights: [1.0, 0.8, 0.5, 0.3, 0.3]   # pixelwpiexl only (per-layer)
+      weight: 1.0
+    gbclm:
+      conv_type: tag       # tag | gcn | gat | none
+      nc: 256
+      num_hop: 4
+      nonzero_th: 0.6
+      nce_T: 0.07
+      weight: 1.0

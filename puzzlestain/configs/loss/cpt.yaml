@@ -1,0 +1,16 @@
+# @package _global_
+# CPT loss: LSGAN + PatchNCE + Gaussian-pyramid reconstruction (lambda_gp and
+# gp_weights stay on the model).
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

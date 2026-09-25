@@ -1,0 +1,4 @@
+# All families: image_quality / perception / pathological_relevance / pathfid
+#
+#   puzzlestain-eval all dataset=... stain=... model=...
+families: [image_quality, perception, pathological_relevance, pathfid]

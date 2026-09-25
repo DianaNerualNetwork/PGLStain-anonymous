@@ -1,0 +1,5 @@
+# Image quality family: ssim / psnr / hist_corr
+#
+#   puzzlestain-eval image-quality dataset=... stain=... model=...
+#   puzzlestain-eval image-quality dataset=... stain=... model=... metrics=[ssim,psnr]
+families: [image_quality]

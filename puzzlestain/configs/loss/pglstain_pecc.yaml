@@ -1,0 +1,32 @@
+# @package _global_
+# PECC = Dual Graph + SoftGate + permutation-invariant OD structure.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0
+    pecc_correspondence:
+      nc: 256
+      num_hop: 4
+      nonzero_th: 0.6
+      od_sigma: 0.1
+      nce_T: 0.07
+      conv_type: tag
+      pairing: index_softgate  # index candidates weighted by protein-expression agreement
+      weight: 1.0
+    pecc_structure:
+      od_sigma: 0.1
+      num_patches: 256
+      lambda_deg: 1.0
+      lambda_spec: 0.5
+      lambda_clust: 0.01
+      scale: 1.0
+      weight: 1.0

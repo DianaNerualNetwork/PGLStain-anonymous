@@ -1,0 +1,15 @@
+name: pix2pix_pyramid
+params:
+  input_nc: 3
+  output_nc: 3
+  ngf: 64
+  ndf: 64
+  netG: resnet_9blocks
+  netD: basic
+  n_layers_D: 3
+  norm: batch
+  use_dropout: false
+  init_type: normal
+  init_gain: 0.02
+use_gan: true
+normalize_to_minus_one_one: true

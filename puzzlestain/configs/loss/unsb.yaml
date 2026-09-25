@@ -1,0 +1,13 @@
+# @package _global_
+# UNSB loss: LSGAN + PatchNCE. The SB energy loss, cycle terms and
+# all lambda weighting are applied directly by the strategy, as in the
+# original repo; the composite `weight` fields are unused formalities.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      weight: 1.0

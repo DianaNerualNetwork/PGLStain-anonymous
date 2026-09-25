@@ -1,0 +1,25 @@
+# @package _global_
+# MDCL loss: LSGAN + mix-domain PatchNCE + mix-domain adaptive supervised
+# PatchNCE. ASP reweighting follows the active experiment schedule so each
+# dataset can keep its own constant-LR and decay phases.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    mix_patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    mix_asp:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      asp_loss_mode: lambda_linear
+      n_epochs: ${training.n_epochs}
+      n_epochs_decay: ${training.n_epochs_decay}
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0

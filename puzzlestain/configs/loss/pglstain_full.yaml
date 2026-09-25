@@ -1,0 +1,55 @@
+# @package _global_
+# Full PGLStain = PECC + MRSA on top of CPT.
+loss:
+  components:
+    gan:
+      gan_mode: lsgan
+      weight: 1.0
+    patchnce:
+      nce_T: 0.07
+      batch_size: 1
+      nce_includes_all_negatives_from_minibatch: false
+      weight: 1.0
+    gauss_pyramid_l1:
+      num_high: 5
+      weight: 1.0
+    pecc_correspondence:
+      nc: 256
+      num_hop: 4
+      nonzero_th: 0.6
+      od_sigma: 0.1
+      nce_T: 0.07
+      conv_type: tag
+      pairing: index_softgate
+      weight: 1.0
+    pecc_structure:
+      od_sigma: 0.1
+      num_patches: 256
+      lambda_deg: 1.0
+      lambda_spec: 0.5
+      lambda_clust: 0.01
+      scale: 1.0
+      weight: 1.0
+    mrsa_marginal:
+      patch_size: 16
+      num_quantiles: 128
+      tissue_threshold: 0.95
+      min_tissue_fraction: 0.25
+      min_tissue_patches: 8
+      weight: 1.0
+    mrsa_relational:
+      patch_size: 32
+      max_nodes: 64
+      min_nodes: 8
+      tissue_threshold: 0.95
+      min_tissue_fraction: 0.25
+      positive_od_threshold: 0.02
+      positive_temperature: 0.01
+      od_sigma: 0.1
+      positive_sigma: 0.25
+      sinkhorn_epsilon: 0.05
+      mass_penalty: 2.0
+      balanced: false
+      outer_iterations: 6
+      sinkhorn_iterations: 30
+      weight: 1.0

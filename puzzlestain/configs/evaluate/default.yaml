@@ -1,0 +1,33 @@
+# Base evaluation config for puzzlestain-eval.
+#
+# Usage:
+#   puzzlestain-eval <preset> [key=value ...]
+#   puzzlestain-eval pathfid dataset=MIST stain=ER model=pglstain
+#   puzzlestain-eval ./my_eval.yaml
+#
+# Family presets or a custom YAML file are merged on top of these defaults;
+# command-line dotlist overrides win over both. Required fields use `???`.
+
+dataset: ???            # dataset directory under cache_root
+stain: ???              # stain subfolder, e.g. ER / PR / HER2
+model: ???              # model results subfolder (contains fake/ gt/ source/)
+
+families: [image_quality, perception, pathological_relevance, pathfid]
+cache_root: ${oc.env:PATHOLOGY_CACHE_ROOT,.}
+output_dir: ${oc.env:PATHOLOGY_METRIC_ROOT,./metrics}
+exp_name: null          # null -> use model as the experiment name
+device: cuda           # falls back to cpu when CUDA is unavailable
+metrics: null           # null -> all metrics of the family; or a list
+verbose: true
+
+# Each extractor produces its own PathFID summary column.
+pathfid:
+  foundation_models: [uni,univ2-h,conch,stainnet]
+  # Weights are not bundled. Set PATHOLOGY_CHECKPOINT_ROOT or override this map.
+  # A single local path is also accepted for single-extractor runs.
+  checkpoint:
+    uni: ${oc.env:PATHOLOGY_CHECKPOINT_ROOT,./checkpoints}/uni
+    univ2-h: ${oc.env:PATHOLOGY_CHECKPOINT_ROOT,./checkpoints}/univ2-h
+    conch: ${oc.env:PATHOLOGY_CHECKPOINT_ROOT,./checkpoints}/conch
+    stainnet: ${oc.env:PATHOLOGY_CHECKPOINT_ROOT,./checkpoints}/stainnet
+  hf_id: null            # null -> per-extractor default; local weights take priority
