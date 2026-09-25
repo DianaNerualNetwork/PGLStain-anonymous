@@ -1,0 +1,13 @@
+{
+  "files": {
+    "config.yaml": {
+      "sha256": "07f2e7ab061ea1f836588e6ebec7b6d23875c08430c1507a7a50027e5be84a85",
+      "size_bytes": 1106
+    },
+    "trainer_state.pt": {
+      "sha256": "4c07d96534756c62a2ec8bdec1c29a106894ea51145eab9b6d2fb75f94abeb7d",
+      "size_bytes": 31576491
+    }
+  },
+  "generator_key_count": 76
+}

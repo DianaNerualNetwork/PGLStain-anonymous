@@ -37,3 +37,15 @@ dist/
 !/checkpoints/acrobat_er_full/config.yaml
 !/checkpoints/acrobat_er_full/trainer_state.pt
 !/checkpoints/acrobat_er_full/export_metadata.json
+!/checkpoints/mist_her2_full/
+!/checkpoints/mist_her2_full/config.yaml
+!/checkpoints/mist_her2_full/trainer_state.pt
+!/checkpoints/mist_her2_full/export_metadata.json
+!/checkpoints/mist_pr_full/
+!/checkpoints/mist_pr_full/config.yaml
+!/checkpoints/mist_pr_full/trainer_state.pt
+!/checkpoints/mist_pr_full/export_metadata.json
+!/checkpoints/mist_ki67_full/
+!/checkpoints/mist_ki67_full/config.yaml
+!/checkpoints/mist_ki67_full/trainer_state.pt
+!/checkpoints/mist_ki67_full/export_metadata.json

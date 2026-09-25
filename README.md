@@ -7,8 +7,8 @@ H&E-to-IHC Virtual Staining**.
 This standalone source snapshot contains PGLStain and eleven comparison
 methods: **CUT, CycleGAN, UNSB, PyramidP2P, ASP, PPT, PSPStain, MDCL, SIMGAN,
 USIGAN, and M2PL-GAN**. The Python package and console commands retain the
-`puzzlestain` name for compatibility. Two inference-only Full PGLStain
-checkpoints are included for MIST–ER and ACROBAT–ER. No comparison-method
+`puzzlestain` name for compatibility. Five inference-only Full PGLStain
+checkpoints are included for MIST–ER/HER2/PR/Ki67 and ACROBAT–ER. No comparison-method
 weights, author identities, development Git history, datasets, or private
 training metadata are included.
 
@@ -31,7 +31,7 @@ puzzlestain/
   training/                        Shared training loop
   inference/                       Checkpoint inference
   evaluation/                      Image-quality and staining metrics
-checkpoints/{mist_er_full,acrobat_er_full}/  Released Full generators
+checkpoints/                       Five released Full generators
 docs/CONFIGURATIONS.md              Recipe details and external weights
 docs/CHECKPOINTS.md                 Checkpoint provenance and prediction
 scripts/export_inference_checkpoint.py      Minimal checkpoint exporter
@@ -125,7 +125,7 @@ configured `loss.components.psp_pathology.seg_pretrained_path`.
 PPT initializes pretrained torchvision VGG19 and may download its weights.
 Perceptual metrics and PathFID also require pretrained feature extractors;
 obtain them under the relevant upstream terms. These external dependency
-weights are not bundled; only the two PGLStain Full generators are supplied.
+weights are not bundled; only the released PGLStain Full generators are supplied.
 
 ## Inference and evaluation
 
@@ -141,11 +141,16 @@ puzzlestain-eval image-quality \
   dataset=MIST stain=ER model=pglstain cache_root=./results
 ```
 
-For ACROBAT–ER, use `checkpoints/acrobat_er_full` and the corresponding
-ACROBAT source/reference directories. Both checkpoints use the default
+MIST–HER2, PR, and Ki67 use `checkpoints/mist_her2_full`,
+`checkpoints/mist_pr_full`, and `checkpoints/mist_ki67_full`, respectively.
+For ACROBAT–ER, use `checkpoints/acrobat_er_full` and its source/reference
+directories. Select the checkpoint for the intended stain; changing the output
+stain label does not change the trained generator. All checkpoints use the default
 512 × 512 direct-resize protocol and evaluation mode. Their minimal configs
 are for inference, not training resumption. See [checkpoint details](docs/CHECKPOINTS.md)
-for full commands, hashes, and the ACROBAT training-recovery caveat.
+for all five commands, hashes, and training provenance. In particular, the
+reported MIST–HER2/PR/Ki67 checkpoints used `rho=1`, whereas the two ER
+checkpoints used `rho=2`; the ACROBAT training-recovery caveat is also documented.
 
 Other evaluation presets are `perception`, `pathological-relevance`,
 `pathfid`, and `all`. Configure the desired extractor and weights explicitly
@@ -164,12 +169,12 @@ should not be mistaken for that separate Fiji analysis pipeline.
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider
 ```
 
-The offline suite uses synthetic tensors and configuration checks. In addition,
-both released checkpoints were tested on three real validation patches each:
-the six floating-point predictions were bitwise identical to the original
-implementation, and the prediction CLI produced six valid PNGs. This is an
-inference-equivalence check, not a new full-dataset evaluation or clinical
-validation. See [VALIDATION.md](VALIDATION.md).
+The offline suite uses synthetic tensors and configuration checks. Released
+checkpoints are additionally tested on real validation patches against the
+original implementation, including the actual prediction CLI and PNG outputs.
+These are inference-equivalence checks, not a new full-dataset evaluation or
+clinical validation. See [VALIDATION.md](VALIDATION.md) for the tested samples
+and results.
 
 Before distributing, inspect all links and files, confirm redistribution
 permissions, and verify downloads in a logged-out browser. GitHub hosting and

@@ -31,7 +31,7 @@ redistribution or use. Upstream license/copyright notices in source headers
 have not been removed. CUT/CycleGAN lineage includes the work of Taesung Park
 and Jun-Yan Zhu; the replay-buffer lineage includes NVIDIA's pix2pixHD code.
 
-No datasets or third-party pretrained checkpoints are distributed. The two
+No datasets or third-party pretrained checkpoints are distributed. The five
 PGLStain Full generators are provided for inference; see docs/CHECKPOINTS.md.
 Downloads initiated by torchvision or other libraries remain subject to the
 providers' terms.

@@ -97,7 +97,7 @@ none is included or represented as a validated experiment.
 
 ## Weights, outputs, and evaluation
 
-Two Full PGLStain generators are bundled for inference; see
+Five Full PGLStain generators are bundled for inference; see
 [CHECKPOINTS.md](CHECKPOINTS.md). Comparison-method weights and third-party
 pretrained weights are not bundled. PSPStain requires its third-party
 segmentation checkpoint. Its default is
